@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import CurrentScreen from "../components/CurrentScreen";
 
 export default function Home() {
-  const [screenName, setScreenName] = useState<string | undefined>();
+  const [screenName, setScreenName] = useState<string | undefined>("in_game");
 
   useEffect(() => {
     const loadWindowName = async () => {

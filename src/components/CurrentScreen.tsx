@@ -9,7 +9,7 @@ const { BACKGROUND, DESKTOP, IN_GAME } = WINDOW_NAMES;
 //this is done to reduce the amount of time spent loading
 const BackgroundScreen = dynamic(() => import("@/screens/background/Screen"));
 const DesktopScreen = dynamic(() => import("@/screens/desktop/Screen"));
-const InGameScreen = dynamic(() => import("@/screens/in-game/Screen"));
+const InGameScreen = dynamic(() => import("@/screens/in_game/Screen"));
 
 type CurrentScreenProps = {
   name?: string;
