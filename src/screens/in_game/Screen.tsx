@@ -11,7 +11,7 @@ const Screen: FC = () => {
   }
 
   return (
-    <div>
+    <>
       {showBanner && (
         <NotificationBanner
           title="WARD THE MAP"
@@ -36,7 +36,7 @@ const Screen: FC = () => {
           </button>
         )}
       </div>
-    </div>
+    </>
   )
 }
 
