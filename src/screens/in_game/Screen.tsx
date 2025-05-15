@@ -23,19 +23,15 @@ const Screen: FC = () => {
           autoCloseDelay={5000} // 5 seconds
         />
       )}
-
-      <div className="p-4">
-        teste
-        {/* Button to show the banner again */}
-        {!showBanner && (
-          <button
-            className="mt-4 px-4 py-2 bg-slate-800 rounded-md hover:bg-slate-700"
-            onClick={() => setShowBanner(true)}
-          >
-            Show Banner Again
-          </button>
-        )}
-      </div>
+      {/* Button to show the banner again */}
+      {!showBanner && (
+        <button
+          className="mt-4 px-4 py-2 bg-slate-800 rounded-md hover:bg-slate-700"
+          onClick={() => setShowBanner(true)}
+        >
+          Show Banner Again
+        </button>
+      )}
     </div>
   )
 }
