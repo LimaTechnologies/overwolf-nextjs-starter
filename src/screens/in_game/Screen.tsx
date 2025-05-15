@@ -11,7 +11,7 @@ const Screen: FC = () => {
   }
 
   return (
-    <div className="text-slate-200 bg-slate-600 top-0 left-0 right-0 bottom-0 absolute">
+    <div>
       {showBanner && (
         <NotificationBanner
           title="WARD THE MAP"
