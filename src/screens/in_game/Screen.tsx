@@ -9,6 +9,7 @@ const Screen: FC = () => {
 	const gameState: GameState | undefined = useGameState()
 
 	const [showBanner, setShowBanner] = useState(true)
+	const [hasWelcomed, setHasWelcomed] = useState(false)
 
 	const [bannerProps, setBannerProps] = useState({
 		title: "",
@@ -19,12 +20,29 @@ const Screen: FC = () => {
 
 	useEffect(() => {
 		if (gameState) {
+			if (!hasWelcomed) {
+				setBannerProps({
+					title: "Welcome to the Game!",
+					description: "Enjoy your time in the game!",
+					iconUrl: "/next.svg",
+					accentColor: "#00ff00",
+				})
+				setHasWelcomed(true)
+			}
 
 			if (gameState.live_client_data && gameState.live_client_data.game_data) {
 
 				const time = gameState.live_client_data.game_data.gameTime
+				const events = gameState.live_client_data.events
 
-				
+				const dragonTimer = [...events].reverse().find(e => e.EventName === "DragonKill")
+				const baronTimer = [...events].reverse().find(e => e.EventName === "BaronKill")
+
+				const isNextDragonAncient = dragonTimer?.DragonType === "Elder"
+
+				const nextDragon = dragonTimer?.EventTime + 5 * 60 * 1000
+				const nextBaron = baronTimer?.EventTime + 7 * 60 * 1000
+
 
 			}
 
@@ -39,16 +57,17 @@ const Screen: FC = () => {
 		<div className="absolute top-0 left-0 right-0 bottom-0">
 			{showBanner && (
 				<NotificationBanner
-					title="WARD THE MAP"
-					description="your team only have 5% of sight of your jungle. I recommend buying a pink when you reset."
-					iconUrl="/ward-icon.png"
+					title={bannerProps.title}
+					description={bannerProps.description}
+					iconUrl={bannerProps.iconUrl}
+					accentColor={bannerProps.accentColor}
 					onClose={handleBannerClose}
 					autoClose={true}
 					autoCloseDelay={5000} // 5 seconds
 				/>
 			)}
 			{/* Button to show the banner again */}
-			{
+			{/* {
 				!showBanner && (
 					<button
 						className="mt-4 px-4 py-2 bg-slate-800 rounded-md hover:bg-slate-700"
@@ -63,10 +82,10 @@ const Screen: FC = () => {
 				<div className="mt-6 p-4 bg-gray-900 rounded-md overflow-auto max-h-96">
 					<h2 className="text-lg font-bold mb-2 text-white">GameState JSON</h2>
 					<pre className="text-xs text-green-300 whitespace-pre-wrap">
-						{JSON.stringify(gameState, null, 2)}
+						{JSON.stringify(gameState?.live_client_data.events, null, 2)}
 					</pre>
 				</div>
-			)}
+			)} */}
 		</div>
 	)
 }
