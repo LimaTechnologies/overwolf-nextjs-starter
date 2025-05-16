@@ -100,7 +100,7 @@ const NotificationBanner: FC<NotificationBannerProps> = ({
                     transformOrigin: "right center",
                 }}
             >
-                <div className="relative text-slate-200">
+                <div className="relative text-slate-200 rounded-l-lg shadow-lg">
                     {/* Close button */}
                     <button
                         onClick={handleClose}

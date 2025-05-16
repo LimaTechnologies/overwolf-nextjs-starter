@@ -63,8 +63,8 @@ const Screen: FC = () => {
 			const time = Number(gameData?.gameTime) || 0
 			const events = gameState?.live_client_data?.events
 
-			const dragonTimer = [...events].reverse().find(e => e.EventName === "DragonKill")
-			const baronTimer = [...events].reverse().find(e => e.EventName === "BaronKill")
+			const dragonTimer = [...events].reverse().map(e => JSON.parse(e)).find(e => e.EventName === "DragonKill")
+			const baronTimer = [...events].reverse().map(e => JSON.parse(e)).find(e => e.EventName === "BaronKill")
 
 			const isNextDragonAncient = dragonTimer?.DragonType === "Elder"
 

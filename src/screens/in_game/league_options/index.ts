@@ -74,7 +74,7 @@ export class LeagueOptions {
     static full_clear_gank = {
         cardData: {
             title: "Gank full clear",
-            description: "O jungler pode gankar antes ou depois do arongueijo!",
+            description: "O jungler pode gankar antes ou depois do arongueijo até os 4 minutos.",
             iconUrl: "",
             accentColor: "#00ff00"
         },
