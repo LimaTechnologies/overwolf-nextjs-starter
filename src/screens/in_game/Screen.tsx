@@ -11,6 +11,13 @@ const Screen: FC = () => {
 	const [showBanner, setShowBanner] = useState(true)
 	const [hasWelcomed, setHasWelcomed] = useState(false)
 
+	const [helpersQueue, setHelpersQueue] = useState<{
+		title: string
+		description: string
+		iconUrl: string
+		accentColor: string
+	}[]>([])
+
 	const [bannerProps, setBannerProps] = useState({
 		title: "",
 		description: "",
@@ -21,7 +28,7 @@ const Screen: FC = () => {
 	useEffect(() => {
 		if (gameState) {
 			if (!hasWelcomed) {
-				setBannerProps({
+				helpersQueue.push({
 					title: "Welcome to the Game!",
 					description: "Enjoy your time in the game!",
 					iconUrl: "/next.svg",
@@ -54,10 +61,21 @@ const Screen: FC = () => {
 				const full_clear_gank_time = (60 + 60 + 60) * 1000
 				const second_clear_gank_time = (60 * 5) * 1000
 
-				
+
 
 			}
 
+		}
+
+		if (!showBanner && helpersQueue.length > 0) {
+			const nextBanner = helpersQueue[0]
+
+			setHelpersQueue((prevQueue) => prevQueue.slice(1)) // Remove the first element from the queue
+
+			if (nextBanner) {
+				setBannerProps(nextBanner)
+				setShowBanner(true)
+			}
 		}
 	})
 
