@@ -4,6 +4,7 @@ import { type FC, useEffect, useState } from "react"
 import NotificationBanner from "./components/notification-banner"
 import { GameState } from "@/lib/overwolf/gameService/types"
 import useGameState from "@/hooks/useGameState"
+import { LeagueOptions } from "./league_options"
 
 const Screen: FC = () => {
 	const gameState: GameState | undefined = useGameState()
@@ -52,17 +53,33 @@ const Screen: FC = () => {
 				const isNextDragonAncient = dragonTimer?.DragonType === "Elder"
 
 				const nextDragon = dragonTimer?.EventTime
-					? dragonTimer.EventTime + 5 * 60 * 1000
-					: 5 * 60 * 1000
+					? dragonTimer.EventTime + LeagueOptions.dragon.respawnTime
+					: LeagueOptions.dragon.spawnTime
+
 				const nextBaron = baronTimer?.EventTime
-					? baronTimer.EventTime + 5 * 60 * 1000
-					: 20 * 60 * 1000
-				const early_gank_time = (60 + 60 + 15) * 1000
-				const full_clear_gank_time = (60 + 60 + 60) * 1000
-				const second_clear_gank_time = (60 * 5) * 1000
+					? baronTimer.EventTime + LeagueOptions.baron.respawnTime
+					: LeagueOptions.baron.spawnTime
 
+				const early_gank_time = LeagueOptions.earlygank.spawnTime
+				const full_clear_gank_time = LeagueOptions.full_clear_gank.spawnTime
+				const second_clear_gank_time = LeagueOptions.second_clear_gank.spawnTime
+				const atakhan_time = LeagueOptions.atakhan.spawnTime
+				const grubs_time = LeagueOptions.grubs.spawnTime
+				const riftherald_time = LeagueOptions.riftherald.spawnTime
 
+				const isEarlyGank = time <= early_gank_time && time >= early_gank_time - thirty_seconds
+				const isFullClearGank = time <= full_clear_gank_time && time >= full_clear_gank_time - thirty_seconds
+				const isSecondClearGank = time <= second_clear_gank_time && time >= second_clear_gank_time - thirty_seconds
+				const isGrubs = time <= grubs_time && time >= grubs_time - one_minute
+				const isRiftHerald = time <= riftherald_time && time >= riftherald_time - one_minute_and_a_half
+				const isElder = time <= nextDragon && time >= nextDragon - one_minute_and_a_half && isNextDragonAncient
+				const isAtakhan = time <= atakhan_time && time >= atakhan_time - one_minute_and_a_half
+				const isBaron = time <= nextBaron && time >= nextBaron - one_minute_and_a_half
+				const isDragon = time <= nextDragon && time >= nextDragon - one_minute_and_a_half
 
+				if (isEarlyGank) {
+					helpersQueue.push(LeagueOptions.earlygank.cardData)
+				}
 			}
 
 		}
