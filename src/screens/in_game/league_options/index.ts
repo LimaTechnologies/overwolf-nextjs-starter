@@ -68,7 +68,7 @@ export class LeagueOptions {
             iconUrl: "",
             accentColor: "#00ff00"
         },
-        spawnTime: (2 * 60) + (15)
+        spawnTime: (2 * 60) + (30)
     };
 
     static full_clear_gank = {

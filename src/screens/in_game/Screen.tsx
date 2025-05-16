@@ -14,6 +14,16 @@ const Screen: FC = () => {
 	const [gameData, setGameData] = useState<any>(null)
 	const [gameTime, setGameTime] = useState<number>(0)
 	const [updates, setUpdates] = useState(0)
+	const [earlyGank, setEarlyGank] = useState(false)
+	const [fullClearGank, setFullClearGank] = useState(false)
+	const [secondClearGank, setSecondClearGank] = useState(false)
+	const [grubs, setGrubs] = useState(false)
+	const [riftHerald, setRiftHerald] = useState(false)
+	const [dragon, setDragon] = useState(false)
+	const [baron, setBaron] = useState(false)
+	const [elder, setElder] = useState(false)
+	const [atakhan, setAtakhan] = useState(false)
+
 
 	const [helpersQueue, setHelpersQueue] = useState<{
 		title: string
@@ -47,6 +57,7 @@ const Screen: FC = () => {
 			const one_minute = 60
 			const one_minute_and_a_half = 90
 			const thirty_seconds = 30
+			const fifteen_seconds = 15
 
 			const gameData = JSON.parse(gameState?.live_client_data?.game_data || "{}")
 			const time = Number(gameData?.gameTime) || 0
@@ -72,21 +83,71 @@ const Screen: FC = () => {
 			const grubs_time = LeagueOptions.grubs.spawnTime
 			const riftherald_time = LeagueOptions.riftherald.spawnTime
 
-			const isEarlyGank = time <= early_gank_time && time >= early_gank_time - thirty_seconds
-			const isFullClearGank = time <= full_clear_gank_time && time >= full_clear_gank_time - thirty_seconds
-			const isSecondClearGank = time <= second_clear_gank_time && time >= second_clear_gank_time - thirty_seconds
-			const isGrubs = time <= grubs_time && time >= grubs_time - one_minute
-			const isRiftHerald = time <= riftherald_time && time >= riftherald_time - one_minute_and_a_half
-			const isElder = time <= nextDragon && time >= nextDragon - one_minute_and_a_half && isNextDragonAncient
-			const isAtakhan = time <= atakhan_time && time >= atakhan_time - one_minute_and_a_half
-			const isBaron = time <= nextBaron && time >= nextBaron - one_minute_and_a_half
-			const isDragon = time <= nextDragon && time >= nextDragon - one_minute_and_a_half
+			const isEarlyGank = time <= early_gank_time && time >= early_gank_time - fifteen_seconds && !earlyGank
+			const isFullClearGank = time <= full_clear_gank_time && time >= full_clear_gank_time - fifteen_seconds && !fullClearGank
+			const isSecondClearGank = time <= second_clear_gank_time && time >= second_clear_gank_time - fifteen_seconds && !secondClearGank
+			const isGrubs = time <= grubs_time && time >= grubs_time - one_minute && !grubs
+			const isRiftHerald = time <= riftherald_time && time >= riftherald_time - one_minute_and_a_half && !riftHerald
+			const isElder = time <= nextDragon && time >= nextDragon - one_minute_and_a_half && isNextDragonAncient && !elder
+			const isAtakhan = time <= atakhan_time && time >= atakhan_time - one_minute_and_a_half && !atakhan
+			const isBaron = time <= nextBaron && time >= nextBaron - one_minute_and_a_half && !baron
+			const isDragon = time <= nextDragon && time >= nextDragon - one_minute_and_a_half && !dragon
 
 			if (isEarlyGank) {
 				helpersQueue.push(LeagueOptions.earlygank.cardData)
+				setEarlyGank(true)
 			}
 
-			
+			if (isFullClearGank) {
+				helpersQueue.push(LeagueOptions.full_clear_gank.cardData)
+				setFullClearGank(true)
+			}
+
+			if (isSecondClearGank) {
+				helpersQueue.push(LeagueOptions.second_clear_gank.cardData)
+				setSecondClearGank(true)
+			}
+
+			if (isGrubs) {
+				helpersQueue.push(LeagueOptions.grubs.cardData)
+				setGrubs(true)
+			}
+
+			if (isRiftHerald) {
+				helpersQueue.push(LeagueOptions.riftherald.cardData)
+				setRiftHerald(true)
+			}
+
+			if (isDragon) {
+				helpersQueue.push(LeagueOptions.dragon.cardData)
+				setDragon(true)
+				setTimeout(() => {
+					setDragon(false)
+				}, 120 * 1000)
+			}
+
+			if (isBaron) {
+				helpersQueue.push(LeagueOptions.baron.cardData)
+				setBaron(true)
+
+				setTimeout(() => {
+					setBaron(false)
+				}, 120 * 1000)
+			}
+
+			if (isElder) {
+				setDragon(false)
+				helpersQueue.push(LeagueOptions.elder.cardData)
+				setElder(true)
+				setTimeout(() => {
+					setElder(false)
+				}, 120 * 1000)
+			}
+
+			if (isAtakhan) {
+				helpersQueue.push(LeagueOptions.atakhan.cardData)
+				setAtakhan(true)
+			}
 		}
 
 		if (!showBanner && helpersQueue.length > 0) {
