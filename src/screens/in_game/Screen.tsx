@@ -54,7 +54,7 @@ const Screen: FC = () => {
 				const full_clear_gank_time = (60 + 60 + 60) * 1000
 				const second_clear_gank_time = (60 * 5) * 1000
 
-
+				
 
 			}
 
