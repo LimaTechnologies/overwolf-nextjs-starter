@@ -11,6 +11,9 @@ const Screen: FC = () => {
 
 	const [showBanner, setShowBanner] = useState(true)
 	const [hasWelcomed, setHasWelcomed] = useState(false)
+	const [gameData, setGameData] = useState<any>(null)
+	const [gameTime, setGameTime] = useState<number>(0)
+	const [updates, setUpdates] = useState(0)
 
 	const [helpersQueue, setHelpersQueue] = useState<{
 		title: string
@@ -27,6 +30,7 @@ const Screen: FC = () => {
 	})
 
 	useEffect(() => {
+		setUpdates(updates + 1)
 		if (gameState) {
 			if (!hasWelcomed) {
 				helpersQueue.push({
@@ -37,51 +41,52 @@ const Screen: FC = () => {
 				})
 				setHasWelcomed(true)
 			}
+		}
 
-			if (gameState.live_client_data && gameState.live_client_data.game_data) {
+		if (gameState && gameState.live_client_data && gameState.live_client_data.game_data) {
+			const one_minute = 60
+			const one_minute_and_a_half = 90
+			const thirty_seconds = 30
 
-				const one_minute = 60 * 1000
-				const one_minute_and_a_half = 90 * 1000
-				const thirty_seconds = 30 * 1000
+			const gameData = JSON.parse(gameState?.live_client_data?.game_data || "{}")
+			const time = Number(gameData?.gameTime) || 0
+			const events = gameState?.live_client_data?.events
 
-				const time = gameState.live_client_data.game_data.gameTime
-				const events = gameState.live_client_data.events
+			const dragonTimer = [...events].reverse().find(e => e.EventName === "DragonKill")
+			const baronTimer = [...events].reverse().find(e => e.EventName === "BaronKill")
 
-				const dragonTimer = [...events].reverse().find(e => e.EventName === "DragonKill")
-				const baronTimer = [...events].reverse().find(e => e.EventName === "BaronKill")
+			const isNextDragonAncient = dragonTimer?.DragonType === "Elder"
 
-				const isNextDragonAncient = dragonTimer?.DragonType === "Elder"
+			const nextDragon = dragonTimer?.EventTime
+				? dragonTimer.EventTime + LeagueOptions.dragon.respawnTime
+				: LeagueOptions.dragon.spawnTime
 
-				const nextDragon = dragonTimer?.EventTime
-					? dragonTimer.EventTime + LeagueOptions.dragon.respawnTime
-					: LeagueOptions.dragon.spawnTime
+			const nextBaron = baronTimer?.EventTime
+				? baronTimer.EventTime + LeagueOptions.baron.respawnTime
+				: LeagueOptions.baron.spawnTime
 
-				const nextBaron = baronTimer?.EventTime
-					? baronTimer.EventTime + LeagueOptions.baron.respawnTime
-					: LeagueOptions.baron.spawnTime
+			const early_gank_time = LeagueOptions.earlygank.spawnTime
+			const full_clear_gank_time = LeagueOptions.full_clear_gank.spawnTime
+			const second_clear_gank_time = LeagueOptions.second_clear_gank.spawnTime
+			const atakhan_time = LeagueOptions.atakhan.spawnTime
+			const grubs_time = LeagueOptions.grubs.spawnTime
+			const riftherald_time = LeagueOptions.riftherald.spawnTime
 
-				const early_gank_time = LeagueOptions.earlygank.spawnTime
-				const full_clear_gank_time = LeagueOptions.full_clear_gank.spawnTime
-				const second_clear_gank_time = LeagueOptions.second_clear_gank.spawnTime
-				const atakhan_time = LeagueOptions.atakhan.spawnTime
-				const grubs_time = LeagueOptions.grubs.spawnTime
-				const riftherald_time = LeagueOptions.riftherald.spawnTime
+			const isEarlyGank = time <= early_gank_time && time >= early_gank_time - thirty_seconds
+			const isFullClearGank = time <= full_clear_gank_time && time >= full_clear_gank_time - thirty_seconds
+			const isSecondClearGank = time <= second_clear_gank_time && time >= second_clear_gank_time - thirty_seconds
+			const isGrubs = time <= grubs_time && time >= grubs_time - one_minute
+			const isRiftHerald = time <= riftherald_time && time >= riftherald_time - one_minute_and_a_half
+			const isElder = time <= nextDragon && time >= nextDragon - one_minute_and_a_half && isNextDragonAncient
+			const isAtakhan = time <= atakhan_time && time >= atakhan_time - one_minute_and_a_half
+			const isBaron = time <= nextBaron && time >= nextBaron - one_minute_and_a_half
+			const isDragon = time <= nextDragon && time >= nextDragon - one_minute_and_a_half
 
-				const isEarlyGank = time <= early_gank_time && time >= early_gank_time - thirty_seconds
-				const isFullClearGank = time <= full_clear_gank_time && time >= full_clear_gank_time - thirty_seconds
-				const isSecondClearGank = time <= second_clear_gank_time && time >= second_clear_gank_time - thirty_seconds
-				const isGrubs = time <= grubs_time && time >= grubs_time - one_minute
-				const isRiftHerald = time <= riftherald_time && time >= riftherald_time - one_minute_and_a_half
-				const isElder = time <= nextDragon && time >= nextDragon - one_minute_and_a_half && isNextDragonAncient
-				const isAtakhan = time <= atakhan_time && time >= atakhan_time - one_minute_and_a_half
-				const isBaron = time <= nextBaron && time >= nextBaron - one_minute_and_a_half
-				const isDragon = time <= nextDragon && time >= nextDragon - one_minute_and_a_half
-
-				if (isEarlyGank) {
-					helpersQueue.push(LeagueOptions.earlygank.cardData)
-				}
+			if (isEarlyGank) {
+				helpersQueue.push(LeagueOptions.earlygank.cardData)
 			}
 
+			
 		}
 
 		if (!showBanner && helpersQueue.length > 0) {
@@ -94,7 +99,8 @@ const Screen: FC = () => {
 				setShowBanner(true)
 			}
 		}
-	})
+	}, [gameState])
+
 
 	const handleBannerClose = () => {
 		setShowBanner(false)
@@ -114,7 +120,7 @@ const Screen: FC = () => {
 				/>
 			)}
 			{/* Button to show the banner again */}
-			{/* {
+			{
 				!showBanner && (
 					<button
 						className="mt-4 px-4 py-2 bg-slate-800 rounded-md hover:bg-slate-700"
@@ -123,17 +129,16 @@ const Screen: FC = () => {
 						Show Banner Again
 					</button>
 				)
-			} */}
+			}
 
-			{gameState && (
+			{/* {gameState && (
 				<div className="mt-6 p-4 bg-gray-900 rounded-md overflow-auto max-h-96">
 					<h2 className="text-lg font-bold mb-2 text-white">GameState JSON</h2>
 					<pre className="text-xs text-green-300 whitespace-pre-wrap">
-						{JSON.stringify(gameState?.live_client_data.events, null, 2)}
+						{JSON.stringify(gameState?.live_client_data?.game_data, null, 2)}
 					</pre>
 				</div>
-			)}
-
+			)} */}
 		</div>
 	)
 }

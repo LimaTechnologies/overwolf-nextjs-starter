@@ -6,8 +6,8 @@ export class LeagueOptions {
             iconUrl: "",
             accentColor: "#8B00FF"
         },
-        spawnTime: 25 * 60 * 1000,
-        respawnTime: 5 * 60 * 1000
+        spawnTime: 25 * 60,
+        respawnTime: 5 * 60
     };
 
     static atakhan = {
@@ -17,7 +17,7 @@ export class LeagueOptions {
             iconUrl: "",
             accentColor: "#FFB300"
         },
-        spawnTime: 20 * 60 * 1000
+        spawnTime: 20 * 60
     };
 
     static dragon = {
@@ -27,8 +27,8 @@ export class LeagueOptions {
             iconUrl: "",
             accentColor: "#FF0000"
         },
-        spawnTime: 5 * 60 * 1000,
-        respawnTime: 5 * 60 * 1000
+        spawnTime: 5 * 60,
+        respawnTime: 5 * 60
     };
 
     static elder = {
@@ -38,7 +38,7 @@ export class LeagueOptions {
             iconUrl: "",
             accentColor: "#FF5555"
         },
-        respawnTime: 5 * 60 * 1000
+        respawnTime: 5 * 60
     };
 
     static riftherald = {
@@ -48,7 +48,7 @@ export class LeagueOptions {
             iconUrl: "",
             accentColor: "#00BFFF"
         },
-        spawnTime: 15 * 60 * 1000
+        spawnTime: 15 * 60
     };
 
     static grubs = {
@@ -58,7 +58,7 @@ export class LeagueOptions {
             iconUrl: "",
             accentColor: "#AA00FF"
         },
-        spawnTime: 8 * 60 * 1000
+        spawnTime: 8 * 60
     };
 
     static earlygank = {
@@ -68,7 +68,7 @@ export class LeagueOptions {
             iconUrl: "",
             accentColor: "#00ff00"
         },
-        spawnTime: (2 * 60 * 1000) + (15 * 1000)
+        spawnTime: (2 * 60) + (15)
     };
 
     static full_clear_gank = {
@@ -78,7 +78,7 @@ export class LeagueOptions {
             iconUrl: "",
             accentColor: "#00ffaa"
         },
-        spawnTime: 3 * 60 * 1000
+        spawnTime: 3 * 60
     };
 
     static second_clear_gank = {
@@ -88,6 +88,6 @@ export class LeagueOptions {
             iconUrl: "",
             accentColor: "#00aaff"
         },
-        spawnTime: (5 * 60 * 1000) + 15 * 1000
+        spawnTime: (5 * 60) + 15
     };
 }
