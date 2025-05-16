@@ -9,7 +9,7 @@ const { onGameLaunched } = overwolf.games;
 
 const useWindowOpener = () => {
   useEffect(() => {
-    WindowsService.restore(WINDOW_NAMES.DESKTOP);
+    WindowsService.restore(WINDOW_NAMES.IN_GAME);
   }, []);
 
   useEffect(() => {
