@@ -4,7 +4,7 @@ export class LeagueOptions {
             title: "Barão Nashor",
             description: "Power Play! Barão já vai nascer.",
             iconUrl: "",
-            accentColor: "#8B00FF"
+            accentColor: "#00ff00"
         },
         spawnTime: 25 * 60,
         respawnTime: 5 * 60
@@ -15,7 +15,7 @@ export class LeagueOptions {
             title: "Atakhan",
             description: "Fique atento! Atakhan irá aparecer no mapa.",
             iconUrl: "",
-            accentColor: "#FFB300"
+            accentColor: "#00ff00"
         },
         spawnTime: 20 * 60
     };
@@ -25,7 +25,7 @@ export class LeagueOptions {
             title: "Dragão",
             description: "Conquiste o Dragão! Ele irá aparecer no mapa.",
             iconUrl: "",
-            accentColor: "#FF0000"
+            accentColor: "#00ff00"
         },
         spawnTime: 5 * 60,
         respawnTime: 5 * 60
@@ -36,7 +36,7 @@ export class LeagueOptions {
             title: "Dragão Ancião",
             description: "Match point, Dragão Ancião irá aparecer no mapa.",
             iconUrl: "",
-            accentColor: "#FF5555"
+            accentColor: "#00ff00"
         },
         respawnTime: 5 * 60
     };
@@ -46,7 +46,7 @@ export class LeagueOptions {
             title: "Arauto do Vale",
             description: "Snowballe com o arauto!",
             iconUrl: "",
-            accentColor: "#00BFFF"
+            accentColor: "#00ff00"
         },
         spawnTime: 15 * 60
     };
@@ -56,7 +56,7 @@ export class LeagueOptions {
             title: "Vastilarvas nascendo",
             description: "Caso queira capitalizar melhor apos as kills!",
             iconUrl: "",
-            accentColor: "#AA00FF"
+            accentColor: "#00ff00"
         },
         spawnTime: 8 * 60
     };
@@ -76,7 +76,7 @@ export class LeagueOptions {
             title: "Gank full clear",
             description: "O jungler pode gankar antes ou depois do arongueijo!",
             iconUrl: "",
-            accentColor: "#00ffaa"
+            accentColor: "#00ff00"
         },
         spawnTime: 3 * 60
     };
@@ -86,7 +86,7 @@ export class LeagueOptions {
             title: "Gank segundo clear",
             description: "Cuidado, jungler pode gankar em breve!",
             iconUrl: "",
-            accentColor: "#00aaff"
+            accentColor: "#00ff00"
         },
         spawnTime: (5 * 60) + 15
     };
