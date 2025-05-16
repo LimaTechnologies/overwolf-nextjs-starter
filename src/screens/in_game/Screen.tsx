@@ -61,19 +61,40 @@ const Screen: FC = () => {
 
 			const gameData = JSON.parse(gameState?.live_client_data?.game_data || "{}")
 			const time = Number(gameData?.gameTime) || 0
-			const events = gameState?.live_client_data?.events
+			let events = gameState?.live_client_data?.events
 
-			const dragonTimer = [...events].reverse().map(e => JSON.parse(e)).find(e => e.EventName === "DragonKill")
-			const baronTimer = [...events].reverse().map(e => JSON.parse(e)).find(e => e.EventName === "BaronKill")
+			if (typeof events === "string") {
+				try {
+					events = JSON.parse(events)
+				} catch (e) {
+					events = []
+				}
+			}
+
+			let eventsArray = Array.isArray(events) ? events : []
+
+			eventsArray = eventsArray.map(e => {
+				if (typeof e === "string") {
+					try {
+						return JSON.parse(e)
+					} catch {
+						return e
+					}
+				}
+				return e
+			})
+
+			const dragonTimer = [...eventsArray].reverse().find(e => e.EventName === "DragonKill")
+			const baronTimer = [...eventsArray].reverse().find(e => e.EventName === "BaronKill")
 
 			const isNextDragonAncient = dragonTimer?.DragonType === "Elder"
 
 			const nextDragon = dragonTimer?.EventTime
-				? dragonTimer.EventTime + LeagueOptions.dragon.respawnTime
+				? Number(dragonTimer.EventTime) + LeagueOptions.dragon.respawnTime
 				: LeagueOptions.dragon.spawnTime
 
 			const nextBaron = baronTimer?.EventTime
-				? baronTimer.EventTime + LeagueOptions.baron.respawnTime
+				? Number(baronTimer.EventTime) + LeagueOptions.baron.respawnTime
 				: LeagueOptions.baron.spawnTime
 
 			const early_gank_time = LeagueOptions.earlygank.spawnTime
@@ -180,26 +201,6 @@ const Screen: FC = () => {
 					autoCloseDelay={5000} // 5 seconds
 				/>
 			)}
-			{/* Button to show the banner again */}
-			{
-				!showBanner && (
-					<button
-						className="mt-4 px-4 py-2 bg-slate-800 rounded-md hover:bg-slate-700"
-						onClick={() => setShowBanner(true)}
-					>
-						Show Banner Again
-					</button>
-				)
-			}
-
-			{/* {gameState && (
-				<div className="mt-6 p-4 bg-gray-900 rounded-md overflow-auto max-h-96">
-					<h2 className="text-lg font-bold mb-2 text-white">GameState JSON</h2>
-					<pre className="text-xs text-green-300 whitespace-pre-wrap">
-						{JSON.stringify(gameState?.live_client_data?.game_data, null, 2)}
-					</pre>
-				</div>
-			)} */}
 		</div>
 	)
 }

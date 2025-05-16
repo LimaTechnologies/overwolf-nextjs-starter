@@ -64,7 +64,7 @@ export class LeagueOptions {
     static earlygank = {
         cardData: {
             title: "Early Gank",
-            description: "Cuidado com o gank após 2:15",
+            description: "Cuidado com o gank após 2:30",
             iconUrl: "",
             accentColor: "#00ff00"
         },
