@@ -32,6 +32,10 @@ const Screen: FC = () => {
 
 			if (gameState.live_client_data && gameState.live_client_data.game_data) {
 
+				const one_minute = 60 * 1000
+				const one_minute_and_a_half = 90 * 1000
+				const thirty_seconds = 30 * 1000
+
 				const time = gameState.live_client_data.game_data.gameTime
 				const events = gameState.live_client_data.events
 
@@ -40,8 +44,16 @@ const Screen: FC = () => {
 
 				const isNextDragonAncient = dragonTimer?.DragonType === "Elder"
 
-				const nextDragon = dragonTimer?.EventTime + 5 * 60 * 1000
-				const nextBaron = baronTimer?.EventTime + 7 * 60 * 1000
+				const nextDragon = dragonTimer?.EventTime
+					? dragonTimer.EventTime + 5 * 60 * 1000
+					: 5 * 60 * 1000
+				const nextBaron = baronTimer?.EventTime
+					? baronTimer.EventTime + 5 * 60 * 1000
+					: 20 * 60 * 1000
+				const early_gank_time = (60 + 60 + 15) * 1000
+				const full_clear_gank_time = (60 + 60 + 60) * 1000
+				const second_clear_gank_time = (60 * 5) * 1000
+
 
 
 			}
