@@ -123,7 +123,7 @@ const Screen: FC = () => {
 						Show Banner Again
 					</button>
 				)
-			}
+			} */}
 
 			{gameState && (
 				<div className="mt-6 p-4 bg-gray-900 rounded-md overflow-auto max-h-96">
@@ -132,7 +132,8 @@ const Screen: FC = () => {
 						{JSON.stringify(gameState?.live_client_data.events, null, 2)}
 					</pre>
 				</div>
-			)} */}
+			)}
+
 		</div>
 	)
 }
