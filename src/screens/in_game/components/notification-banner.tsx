@@ -1,6 +1,6 @@
 "use client"
 
-import { type FC, useEffect, useState } from "react"
+import { type FC, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { X } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -20,24 +20,22 @@ const NotificationBanner: FC<NotificationBannerProps> = ({
     title,
     description,
     iconUrl,
-    accentColor = "#00ff00", // Bright green default
+    accentColor = "#00ff00",
     onClose,
-    autoClose = true, // Default to auto-close
-    autoCloseDelay = 5000, // 5 seconds by default
+    autoClose = true,
+    autoCloseDelay = 5000,
 }) => {
     const [isVisible, setIsVisible] = useState(false)
     const [isClosing, setIsClosing] = useState(false)
     const [showEffect, setShowEffect] = useState(false)
+    const audioRef = useRef<HTMLAudioElement>(null)
 
     useEffect(() => {
-        // Trigger animation after component mounts
         const showTimer = setTimeout(() => {
             setIsVisible(true)
-            // Delay the effect slightly for better UX
             setTimeout(() => setShowEffect(true), 300)
         }, 100)
 
-        // Auto close functionality
         let closeTimer: NodeJS.Timeout | null = null
         if (autoClose) {
             closeTimer = setTimeout(() => {
@@ -49,7 +47,15 @@ const NotificationBanner: FC<NotificationBannerProps> = ({
             clearTimeout(showTimer)
             if (closeTimer) clearTimeout(closeTimer)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [autoClose, autoCloseDelay])
+
+    useEffect(() => {
+        if (isVisible && audioRef.current) {
+            audioRef.current.currentTime = 0
+            audioRef.current.play().catch(() => {})
+        }
+    }, [isVisible])
 
     const handleClose = () => {
         setIsClosing(true)
@@ -57,12 +63,10 @@ const NotificationBanner: FC<NotificationBannerProps> = ({
         setTimeout(() => {
             setIsVisible(false)
             if (onClose) onClose()
-        }, 500) // Match transition duration
+        }, 500)
     }
 
-    // Parse the description to highlight specific text (like percentages or colored words)
     const highlightText = (text: string) => {
-        // This is a simple implementation - you can make it more sophisticated
         return text.split(" ").map((word, index) => {
             if (word.includes("%") || word === "pink") {
                 return (
@@ -81,6 +85,8 @@ const NotificationBanner: FC<NotificationBannerProps> = ({
 
     return (
         <>
+            {/* Audio ping */}
+            <audio ref={audioRef} src="/ping.mp3" preload="auto" />
             {/* Toxic leak effect outside the card */}
             {showEffect && <ToxicLeakEffect color={accentColor} intensity={8} />}
 
