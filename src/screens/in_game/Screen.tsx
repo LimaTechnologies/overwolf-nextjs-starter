@@ -181,6 +181,22 @@ const Screen: FC = () => {
 				setShowBanner(true)
 			}
 		}
+
+		return () => {
+			// Cleanup function to reset the state if needed
+			setGameData(null)
+			setGameTime(0)
+			setUpdates(0)
+			setEarlyGank(false)
+			setFullClearGank(false)
+			setSecondClearGank(false)
+			setGrubs(false)
+			setRiftHerald(false)
+			setDragon(false)
+			setBaron(false)
+			setElder(false)
+			setAtakhan(false)
+		}
 	}, [gameState])
 
 
